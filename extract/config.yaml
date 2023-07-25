@@ -1,0 +1,119 @@
+database:
+  connection: "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=(localdb)\\MSSQLLocalDB; DATABASE=PROYECTO; Trusted_Connection=yes"
+  tablas:
+    detalleCompra:
+      query: "SELECT * FROM [detalleCompra]"
+      headers:
+        - id
+        - idCompra
+        - idProducto
+        - cantidad
+        - precio
+      structure:
+        - name: id
+        - name: idCompra
+        - name: idProducto
+        - name: cantidad
+        - name: precio
+    producto:
+      query: "SELECT * FROM [producto]"
+      headers:
+        - id
+        - nombre
+        - descripcion
+        - costo
+        - foto
+        - tipo_producto
+        - receta
+        - stock
+      structure:
+        - name: id
+        - name: nombre
+        - name: descripcion
+        - name: costo
+        - name: foto
+        - name: tipo_producto
+        - name: receta
+        - name: stock
+    materia_prima:
+      query: "SELECT * FROM [materia_prima]"
+      headers:
+        - id
+        - nombre
+        - cantidad
+        - unidad_medida
+        - costo
+        - idProveedor
+        - estatus
+      structure:
+        - name: id
+        - name: nombre
+        - name: cantidad
+        - name: unidad_medida
+        - name: costo
+        - name: idProveedor
+        - name: estatus
+    pedido:
+      query: "SELECT * FROM [pedido]"
+      headers:
+        - id
+        - fecha
+        - iduser
+        - direccion
+        - folio
+        - estatus
+      structure:
+        - name: id
+        - name: fecha
+        - name: iduser
+        - name: direccion
+        - name: folio
+        - name: estatus
+    user:
+      query: "SELECT * FROM [user]"
+      headers:
+        - id
+        - name
+        - email
+        - password
+        - telefono
+        - active
+        - confirmed_at
+      structure:
+        - name: id
+        - name: name
+        - name: email
+        - name: password
+        - name: telefono
+        - name: active
+        - name: confirmed_at
+    compra:
+      query: "SELECT * FROM [compra]"
+      headers:
+        - idCompra
+        - fecha
+        - iduser
+        - idProveedor
+        - folio
+        - estatus
+      structure:
+        - name: idCompra
+        - name: fecha
+        - name: iduser
+        - name: idProveedor
+        - name: folio
+        - name: estatus
+    detallePedido:
+      query: "SELECT * FROM [detallePedido]"
+      headers:
+        - id
+        - idPedido
+        - idProducto
+        - cantidad
+        - costoTotal
+      structure:
+        - name: id
+        - name: idPedido
+        - name: idProducto
+        - name: cantidad
+        - name: costoTotal
