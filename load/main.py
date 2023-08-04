@@ -38,14 +38,15 @@ def main(filename1, filename2, filename3, filename4):
         session.add(bottom_selling_product)
 
     for _, row in df_calculated_values.iterrows():
-        calculated_values = CalculatedValues(row['Beneficio Bruto'], row['Valor de compra promedio'], row['Total de usuarios'], row['Nuevos usuarios semanales'])
+        calculated_values = CalculatedValues(row['Beneficio Bruto'], row['Valor de compra promedio'], row['Total de usuarios'], row['Valor de venta promedio'])
         session.add(calculated_values)
 
     for _, row in df_monthly_sales.iterrows():
         year = int(row['year'])
         month = int(row['month'])
-        total_sales = int(row['total_sales'])
-        monthly_sales = MonthlySales(year=year, month=month, total_sales=total_sales)
+        nombre = str(row['nombre'])
+        total_vendido = int(row['total_vendido'])
+        monthly_sales = MonthlySales(year=year, month=month,nombre=nombre ,total_vendido=total_vendido)
         session.add(monthly_sales)
 
 

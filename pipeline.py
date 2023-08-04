@@ -1,8 +1,7 @@
 import datetime
 import subprocess
 import logging
-import schedule
-import time
+
 
 # Agregamos la configuración básica del logging
 logging.basicConfig(level=logging.INFO)
@@ -45,7 +44,7 @@ def _transform():
         dirty_data_filename = '{}.csv'.format(new_site_uid)
 
         # Eliminando el archivo .csv sucio
-        subprocess.run(['del', dirty_data_filename], shell=True, cwd='./transform')
+        #subprocess.run(['del', dirty_data_filename], shell=True, cwd='./transform')
 
     # Movemos el archivo .csv limpio a la carpeta load.
     subprocess.run(['move', r'transform\*.csv', r'load'], shell=True)
@@ -60,13 +59,6 @@ def _load():
 
 
 
-def run_process():
+if __name__ == '__main__':
     main()
 
-
-# Programar la ejecución cada 1 minuto
-schedule.every(1).minutes.do(run_process)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)

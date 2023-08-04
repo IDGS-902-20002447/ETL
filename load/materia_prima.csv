@@ -1,0 +1,11 @@
+id,nombre,cantidad,unidad_medida,costo,idProveedor,estatus
+1,Materia1,100,kg,10,1,True
+2,Materia2,200,g,5,2,True
+3,Materia3,50,l,8,3,False
+4,Materia4,300,ml,3,4,True
+5,Materia5,150,kg,12,5,False
+6,Materia6,250,g,6,6,True
+7,Materia7,75,l,9,7,False
+8,Materia8,350,ml,4,8,True
+9,Materia9,100,kg,11,9,False
+10,Materia10,200,g,7,10,True

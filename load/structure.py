@@ -41,13 +41,13 @@ class CalculatedValues(Base):
     gross_profit = Column(Float)
     average_purchase_value = Column(Float)
     total_users = Column(Integer)
-    new_users_weekly = Column(Integer)
+    average_order_value = Column(Integer)
 
-    def __init__(self, gross_profit, average_purchase_value, total_users, new_users_weekly):
+    def __init__(self, gross_profit, average_purchase_value, total_users, average_order_value):
         self.gross_profit = gross_profit
         self.average_purchase_value = average_purchase_value
         self.total_users = total_users
-        self.new_users_weekly = new_users_weekly
+        self.average_order_value = average_order_value
 
 class MonthlySales(Base):
     __tablename__ = 'ventas_mensuales'
@@ -55,12 +55,14 @@ class MonthlySales(Base):
     id = Column(Integer, primary_key=True)
     year = Column(Integer)
     month = Column(Integer)
-    total_sales = Column(Integer)
+    nombre=Column(String)
+    total_vendido= Column(Integer)
 
-    def __init__(self,year, month, total_sales):
+    def __init__(self,year, month, nombre,total_vendido):
         self.year = year
         self.month = month
-        self.total_sales = total_sales
+        self.nombre = nombre
+        self.total_vendido = total_vendido
 
 
 

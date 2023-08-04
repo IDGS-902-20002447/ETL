@@ -1,0 +1,12 @@
+id,name,email,password,telefono,active,confirmed_at
+1,John Doe,john.doe@example.com,password123,123456789,True,2023-07-01 00:00:00
+2,Jane Smith,jane.smith@example.com,password456,987654321,True,2023-07-02 00:00:00
+3,Alice Johnson,alice.johnson@example.com,password789,555555555,False,
+4,David Wilson,david.wilson@example.com,password987,111111111,True,2023-07-10 00:00:00
+5,Michael Wilson,michael@example.com,passworddef,5678901234,True,2022-01-04 13:00:00
+6,Olivia Taylor,olivia@example.com,passwordghi,4321098765,True,2022-01-05 14:00:00
+7,Daniel Anderson,daniel@example.com,passwordjkl,9012345678,False,
+8,Sophia Martinez,sophia@example.com,passwordmno,3456789012,True,2022-01-06 15:00:00
+9,Ethan Clark,ethan@example.com,passwordpqr,6789012345,True,2022-01-07 16:00:00
+10,Isabella Rodriguez,isabella@example.com,passwordstu,1234567890,True,2022-01-08 17:00:00
+11,Nadia,nadia@gmail.com,password,7237943802,True,2022-07-18 17:00:00

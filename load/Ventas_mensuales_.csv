@@ -1,7 +1,11 @@
-year,month,total_sales
-2023,1,2
-2023,2,2
-2023,3,1
-2023,4,2
-2023,5,2
-2023,6,1
+year,month,nombre,total_vendido
+2023,7,Producto 1,5
+2023,7,Producto 10,5
+2023,7,Producto 2,3
+2023,7,Producto 3,2
+2023,7,Producto 4,4
+2023,7,Producto 5,6
+2023,7,Producto 6,1
+2023,7,Producto 7,3
+2023,7,Producto 8,2
+2023,7,Producto 9,4

@@ -15,6 +15,7 @@ def main():
     # Leer los archivos CSV y cargar los datos en DataFrames
     df_user = pd.read_csv('user.csv')
     df_detallePedido = pd.read_csv('detallePedido.csv')
+    df_pedido=pd.read_csv('pedido.csv')
     df_compra = pd.read_csv('compra.csv')
     df_detalleCompra = pd.read_csv('detalleCompra.csv')
     df_producto = pd.read_csv('producto.csv')
@@ -27,27 +28,32 @@ def main():
     average_purchase_value = calculate_average_purchase_value(df_detalleCompra, df_producto)
     top_selling_products = get_top_selling_products(df_detalleCompra, df_producto, 5)
     bottom_selling_products = get_bottom_selling_products(df_detalleCompra, df_producto, 5)
-    monthly_sales = get_monthly_sales(df_compra)
-    total_users, new_users_weekly = get_user_statistics(df_user)
+    #monthly_sales = get_monthly_sales(df_compra)
+    total_users = get_user_statistics(df_user)
+    average_order_value=calculate_average_order_value(df_detallePedido)
+    product_sales_by_month = get_product_sales_by_month(df_detallePedido, df_pedido, df_producto)
 
     # Imprimir los resultados
     print("Beneficio Bruto:", gross_profit)
     print("Valor de compra promedio:", average_purchase_value)
+    
+    print("Valor de venta promedio",average_order_value)
     print("Top 5 productos más vendidos:")
     print(top_selling_products)
     print("Top 5 productos menos vendidos:")
     print(bottom_selling_products)
-    print("Ventas mensuales:")
-    print(monthly_sales)
+    print("-----------------------------------------------------")
+    print("Ventas mensuales por producto:")
+    print(product_sales_by_month)
     print("Total de usuarios:", total_users)
-    print("Nuevos usuarios semanales:")
-    print(new_users_weekly)
+
+    
     # Crear un DataFrame con los resultados
     Valor_Calculado = pd.DataFrame({
         'Beneficio Bruto': [gross_profit],
         'Valor de compra promedio': [average_purchase_value],
         'Total de usuarios': [total_users],
-        'Nuevos usuarios semanales': [new_users_weekly],
+        'Valor de venta promedio':[average_order_value],
     })
     # Crear DataFrame para los productos menos vendidos
     
@@ -58,7 +64,7 @@ def main():
         bottom_selling_products, columns=['idProducto', 'nombre', 'cantidad', 'costo', 'total_obtenido'])
 
     Ventas_mensuales = pd.DataFrame(
-        monthly_sales, columns=['year','month', 'total_sales']
+        product_sales_by_month, columns=['year','month', 'nombre','total_vendido']
     )
 
     # Obtener la fecha actual para utilizarla en el nombre del archivo CSV
@@ -106,7 +112,12 @@ def calculate_average_purchase_value(df_detalleCompra, df_producto):
     print("Listo 2")
     return average_purchase_value
 
+# Función para calcular el valor promedio del pedido
+def calculate_average_order_value(df_detallePedido):
+    # Calcular el valor promedio del pedido
+    average_order_value = df_detallePedido['costoTotal'].mean()
 
+    return round(average_order_value, 2)
 
 # Obtener los 5 productos más vendidos
 def get_top_selling_products(df_detalleCompra, df_producto, num_products):
@@ -125,28 +136,29 @@ def get_bottom_selling_products(df_detalleCompra, df_producto, num_products):
     return df_sorted[['idProducto', 'nombre', 'cantidad', 'costo', 'total_obtenido']]
 
 
-
-
-# Número de ventas mensuales
-def get_monthly_sales(df_compra):
-    df_compra['fecha'] = pd.to_datetime(df_compra['fecha'])
-    df_compra['year'] = df_compra['fecha'].dt.year 
-    
-     # Agregar columna "year"
-    df_compra['month'] = df_compra['fecha'].dt.month
-    df_grouped = df_compra.groupby(['year', 'month']).size().reset_index(name='total_sales')
-    print(df_grouped )
-    return df_grouped
+def get_product_sales_by_month(df_detallePedido, df_pedido, df_producto):
+      # Merge para obtener los nombres de los productos en df_detallePedido
+    df_merged = pd.merge(df_detallePedido, df_producto, left_on='idProducto', right_on='id', how='left')
+    # Merge para obtener la fecha en df_detallePedido
+    df_merged = pd.merge(df_merged, df_pedido[['id', 'fecha']], left_on='idPedido', right_on='id', how='left', suffixes=('_detalle', '_pedido'))
+    # Convertir la columna 'fecha' a tipo datetime
+    df_merged['fecha'] = pd.to_datetime(df_merged['fecha'])
+    # Agregar columnas para el año y el mes
+    df_merged['year'] = df_merged['fecha'].dt.year
+    df_merged['month'] = df_merged['fecha'].dt.month
+    # Agrupar por año, mes y producto, y sumar las cantidades vendidas
+    df_grouped = df_merged.groupby(['year', 'month', 'nombre'])['cantidad'].sum().reset_index()
+    # Renombrar la columna 'cantidad' a 'total_vendido'
+    df_grouped.rename(columns={'cantidad': 'total_vendido'}, inplace=True)
+    return df_grouped[['year', 'month', 'nombre', 'total_vendido']]
 
 
 # Número de usuarios y nuevos usuarios semanales
 def get_user_statistics(df_user):
-    current_week = datetime.datetime.now().isocalendar()[1]
     total_users = df_user.shape[0]
     df_user['confirmed_at'] = pd.to_datetime(df_user['confirmed_at'])
-    df_user['week'] = df_user['confirmed_at'].dt.week
-    new_users_weekly = df_user[df_user['week'] == current_week].shape[0]
-    return total_users, new_users_weekly
+   
+    return total_users
 
 if __name__ == '__main__':
     main()
