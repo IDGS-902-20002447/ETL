@@ -1,0 +1,7 @@
+id,nombre,cantidad,unidad_medida,costo,idProveedor,estatus,fecha
+1,Materia1,100,kg,10,1,True,2023-08-01 18:49:12.017211
+2,Materia2,200,g,5,2,True,2023-08-01 18:49:12.017211
+4,Materia4,300,ml,3,4,True,2023-08-01 18:49:12.017211
+6,Materia6,250,g,6,6,True,2023-08-01 18:49:12.017211
+8,Materia8,350,ml,4,8,True,2023-08-01 18:49:12.017211
+9,Materia9,100,kg,11,9,True,2023-08-01 18:49:12.017211

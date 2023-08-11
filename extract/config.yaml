@@ -1,6 +1,7 @@
 database:
   connection: "DRIVER={ODBC Driver 17 for SQL Server}; SERVER=(localdb)\\MSSQLLocalDB; DATABASE=PROYECTO; Trusted_Connection=yes"
   tablas:
+    #EXISTENCIAS
     detalleCompra:
       query: "SELECT * FROM [detalleCompra]"
       headers:
@@ -35,8 +36,28 @@ database:
         - name: tipo_producto
         - name: receta
         - name: stock
+    producto_existente:
+      query: "SELECT * FROM [producto] WHERE [stock] > 0;"
+      headers:
+        - id
+        - nombre
+        - descripcion
+        - costo
+        - foto
+        - tipo_producto
+        - receta
+        - stock
+      structure:
+        - name: id
+        - name: nombre
+        - name: descripcion
+        - name: costo
+        - name: foto
+        - name: tipo_producto
+        - name: receta
+        - name: stock
     materia_prima:
-      query: "SELECT * FROM [materia_prima]"
+      query: "SELECT * FROM [materia_prima] WHERE [cantidad] > 0 AND [estatus] = 1;"
       headers:
         - id
         - nombre
@@ -69,8 +90,10 @@ database:
         - name: direccion
         - name: folio
         - name: estatus
+        #UNICAMENTE CLIENTES
+        #TRANSFORM  SOBBRE LOS TOP 5 COMPRARON MAS
     user:
-      query: "SELECT * FROM [user]"
+      query: "SELECT * FROM [dbo].[users] WHERE [roleId] = 2;"
       headers:
         - id
         - name
@@ -79,6 +102,7 @@ database:
         - telefono
         - active
         - confirmed_at
+        - roleId
       structure:
         - name: id
         - name: name
@@ -87,6 +111,7 @@ database:
         - name: telefono
         - name: active
         - name: confirmed_at
+        - name: roleId
     compra:
       query: "SELECT * FROM [compra]"
       headers:
