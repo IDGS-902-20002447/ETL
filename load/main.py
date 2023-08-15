@@ -33,8 +33,7 @@ def main(filename1, filename2, filename3, filename4,filename5,filename6,filename
 
     # Cargar los datos en las tablas correspondientes
     for _, row in df_top_selling.iterrows():
-        fecha = pd.to_datetime(row['fecha'])
-        top_selling_product = TopSellingProduct(row['idProducto'], row['nombre'], row['cantidad'], row['costo'], row['total_obtenido'],fecha)
+        top_selling_product = TopSellingProduct(row['idProducto'], row['nombre'], row['cantidad'], row['costo'], row['total_obtenido'],row['fecha'])
        
         try:
             session.add(top_selling_product)
@@ -44,13 +43,12 @@ def main(filename1, filename2, filename3, filename4,filename5,filename6,filename
             logger.error(f"Error al insertar registro: {e}")
 
     for _, row in df_bottom_selling.iterrows():
-        fecha = pd.to_datetime(row['fecha']) 
-        bottom_selling_product = BottomSellingProduct(row['idProducto'], row['nombre'], row['cantidad'], row['costo'], row['total_obtenido'],fecha)
+        bottom_selling_product = BottomSellingProduct(row['idProducto'], row['nombre'], row['cantidad'], row['costo'], row['total_obtenido'],row['fecha'])
         session.add(bottom_selling_product)
 
     for _, row in df_calculated_values.iterrows():
-        fecha = pd.to_datetime(row['fecha'])
-        calculated_values = CalculatedValues(row['Beneficio Bruto'], row['Valor de compra promedio'], row['Total de usuarios'], row['Valor de venta promedio'],fecha)
+       
+        calculated_values = CalculatedValues(row['Beneficio Bruto'], row['Valor de compra promedio'], row['Total de usuarios'], row['Valor de venta promedio'],row['fecha'])
         session.add(calculated_values)
 
     for _, row in df_monthly_sales.iterrows():
@@ -63,18 +61,15 @@ def main(filename1, filename2, filename3, filename4,filename5,filename6,filename
         session.add(monthly_sales)
 
     for _, row in df_top_clientes.iterrows():
-        fecha = pd.to_datetime(row['fecha'])
-        top_selling_clientes = ClientesMasPedido(row['numPedidos'], row['name'], row['telefono'], row['email'],fecha)
+        top_selling_clientes = ClientesMasPedido(row['numPedidos'], row['name'], row['telefono'], row['email'],row['fecha'])
         session.add(top_selling_clientes)
 
     for _, row in df_materia_existente.iterrows():
-        fecha = pd.to_datetime(row['fecha']) 
-        matera_prima_exitente = ExistenceMateriaPrima(row['id'], row['nombre'], row['cantidad'], row['unidad_medida'], row['costo'],fecha)
+        matera_prima_exitente = ExistenceMateriaPrima( row['nombre'], row['cantidad'], row['unidad_medida'], row['costo'],row['fecha'])
         session.add(matera_prima_exitente)
 
     for _, row in df_producto_existentes.iterrows():
-        fecha = pd.to_datetime(row['fecha']) 
-        producto_exitente = ExistenceProduct(row['id'], row['nombre'], row['costo'], row['tipo_producto'], row['stock'],fecha)
+        producto_exitente = ExistenceProduct(row['nombre'], row['costo'], row['tipo_producto'], row['stock'],row['fecha'])
         session.add(producto_exitente)
 
     # Guardar los cambios en la base de datos

@@ -27,11 +27,22 @@ def main(month):
     # Convertir la columna 'confirmed_at' a tipo datetime
     df_user['confirmed_at'] = pd.to_datetime(df_user['confirmed_at'])
      # Agrega una columna de fecha con el primer día del mes actual
-    current_date = datetime.datetime.now()
+    current_date = pd.to_datetime(datetime.datetime.now())
     first_day_of_month = current_date.replace(day=1,month=month)
+    first_month= month
+
     
     df_producto_existentes['fecha'] = first_day_of_month
+    df_producto_existentes['fecha'] = pd.to_datetime(df_producto_existentes['fecha'])
+    df_producto_existentes['fecha'] = df_producto_existentes['fecha'].dt.month
+    print('******************************************AQUI********************************')
+    print (df_producto_existentes['fecha'])
+
     df_materia_prima['fecha'] = first_day_of_month
+    df_materia_prima['fecha'] = pd.to_datetime(df_materia_prima['fecha'])
+    df_materia_prima['fecha'] = df_materia_prima['fecha'].dt.month
+    print('******************************************AQUI********************************')
+    print (df_materia_prima['fecha'])
 
     df_pedido['fecha'] = pd.to_datetime(df_pedido['fecha'])
     df_pedidos_filtered = df_pedido[df_pedido['fecha'].dt.month == month]
@@ -80,7 +91,7 @@ def main(month):
         'Valor de compra promedio': [average_purchase_value],
         'Total de usuarios': [total_users],
         'Valor de venta promedio':[average_order_value],
-        'fecha':[first_day_of_month]
+        'fecha':[first_month]
     })
     # Crear DataFrame para los productos menos vendidos
     Producto_Mas_Vendido = pd.DataFrame(
@@ -114,7 +125,7 @@ def main(month):
     current_date = datetime.datetime.now().strftime("")
 
     # Guardar el DataFrame en un archivo CSV
-  
+    
     Valor_Calculado.to_csv(f'ValorCalculado_{current_date}.csv', index=False)
 
     Producto_Menos_Vendido.to_csv(f'Producto_Menos_Vendido_{current_date}.csv', index=False)
@@ -128,7 +139,8 @@ def main(month):
     Productos_Existente.to_csv(f'Productos_Existente_{current_date}.csv', index=False)
 
     Materia_prima_Existente.to_csv(f'Materia_prima_Existente_{current_date}.csv', index=False)
-
+    print("**************************************DATOS FINALES********************************************")
+    print(Materia_prima_Existente,Productos_Existente,Valor_Calculado,Producto_Menos_Vendido,Producto_Mas_Vendido,Clientes_Mas_Pedido)
     print("Los archivos CSV se han generado exitosamente.")
 
 
@@ -147,6 +159,10 @@ def get_top_clients(df_pedidos, df_user, num_clients=5):
     result = df_pedidos.merge(top_clientes, left_on='iduser', right_on='id')
     # Agrega la columna 'numPedidos' al DataFrame resultante
     result = result.merge(pedidos_por_cliente, left_on='iduser', right_on='iduser')
+    result['fecha'] = pd.to_datetime(result['fecha'])
+    result['fecha'] = result['fecha'].dt.month
+    print('******************************************AQUI********************************')
+    print (result['fecha'])
     # Agrupa por las columnas y suma los valores en 'numPedidos'
     result_grouped = result.groupby(['iduser', 'fecha', 'direccion', 'folio', 'estatus', 'name', 'email', 'telefono'])['numPedidos'].sum().reset_index()
     result_grouped = result_grouped.drop_duplicates(subset=['iduser'])
@@ -197,6 +213,10 @@ def get_top_selling_products(df_detalleCompra, df_producto, num_products,first_d
     df_grouped['total_obtenido'] = df_grouped['cantidad'] * df_grouped['costo']
     df_sorted = df_grouped.sort_values('cantidad', ascending=False).head(num_products)
     df_sorted['fecha'] = first_day_of_month
+    df_sorted['fecha'] = pd.to_datetime(df_sorted['fecha'])
+    df_sorted['fecha'] = df_sorted['fecha'].dt.month
+    print('********************************************************************')
+    print (df_sorted['fecha'])
     return df_sorted[['idProducto','nombre', 'cantidad', 'costo', 'total_obtenido','fecha']]
 
 # Obtener los 5 productos menos vendidos
@@ -206,6 +226,10 @@ def get_bottom_selling_products(df_detalleCompra, df_producto, num_products,firs
     df_grouped['total_obtenido'] = df_grouped['cantidad'] * df_grouped['costo']
     df_sorted = df_grouped.sort_values('cantidad').head(num_products)
     df_sorted['fecha'] = first_day_of_month
+    df_sorted['fecha'] = pd.to_datetime(df_sorted['fecha'])
+    df_sorted['fecha'] = df_sorted['fecha'].dt.month
+    print('********************************************************************')
+    print (df_sorted['fecha'])
     return df_sorted[['idProducto', 'nombre', 'cantidad', 'costo', 'total_obtenido','fecha']]
 
 
@@ -230,6 +254,11 @@ def get_product_sales_by_month(df_detallePedido, df_pedido, df_producto):
 def get_user_statistics(df_user):
     total_users = df_user.shape[0]
     df_user['confirmed_at'] = pd.to_datetime(df_user['confirmed_at'])
+    df_user['confirmed_at'] = df_user['confirmed_at'].dt.month
+    print('******************************USER**************************************')
+    print (df_user['confirmed_at'])
+    
+
    
     return total_users
 

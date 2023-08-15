@@ -10,7 +10,7 @@ class TopSellingProduct(Base):
     cantidad = Column(Integer)
     costo = Column(Float)
     total_obtenido = Column(Float)
-    fecha=Column(DateTime)
+    fecha=Column(Integer)
 
     def __init__(self,idProducto, nombre, cantidad, costo, total_obtenido,fecha):
         self.idProducto=idProducto
@@ -29,7 +29,7 @@ class BottomSellingProduct(Base):
     cantidad = Column(Integer)
     costo = Column(Float)
     total_obtenido = Column(Float)
-    fecha=Column(DateTime)
+    fecha=Column(Integer)
 
     def __init__(self, idProducto,nombre, cantidad, costo, total_obtenido,fecha):
         self.idProducto=idProducto
@@ -48,7 +48,7 @@ class CalculatedValues(Base):
     average_purchase_value = Column(Float)
     total_users = Column(Integer)
     average_order_value = Column(Integer)
-    fecha=Column(DateTime)
+    fecha=Column(Integer)
 
     def __init__(self, gross_profit, average_purchase_value, total_users, average_order_value,fecha):
         self.gross_profit = gross_profit
@@ -81,11 +81,10 @@ class ExistenceMateriaPrima(Base):
     cantidad = Column(Integer)
     unidad_medida = Column(String)
     costo=Column(Float)
-    fecha = Column(DateTime)
+    fecha = Column(Integer)
     
 
-    def __init__(self, id,nombre, cantidad, unidad_medida, costo,fecha):
-        self.id=id
+    def __init__(self,nombre, cantidad, unidad_medida, costo,fecha):
         self.nombre = nombre
         self.cantidad = cantidad
         self.costo = costo
@@ -100,11 +99,10 @@ class ExistenceProduct(Base):
     costo = Column(Integer)
     tipo_producto= Column(String)
     stock = Column(Integer)
-    fecha = Column(DateTime)
+    fecha = Column(Integer)
 
     
-    def __init__(self, id,nombre,costo,tipo_producto,stock,fecha):
-        self.id=id
+    def __init__(self, nombre,costo,tipo_producto,stock,fecha):
         self.nombre = nombre
         self.costo = costo
         self.tipo_producto = tipo_producto
@@ -119,7 +117,7 @@ class ClientesMasPedido(Base):
     name = Column(String)
     telefono = Column(Integer)
     email = Column(String)
-    fecha=Column(DateTime)
+    fecha=Column(Integer)
     
 
     def __init__(self,numPedidos,name,telefono,email,fecha):
